@@ -13,7 +13,6 @@
 #include "interrupt.h"
 #include "USBMon.h"
 
-
 unsigned int TFlag = 0;
 
 interrupt void ISRtimer0()
@@ -22,7 +21,7 @@ interrupt void ISRtimer0()
 	static unsigned int cnt=0;
 	static float mmag = 0.2f;
 
-	float sig0, sig1, sig2, sig3;
+	//float sig0, sig1, sig2, sig3;
 
 	TFlag = 1;
 
@@ -36,10 +35,10 @@ interrupt void ISRtimer0()
 	cnt1K = 0;
 
 	// Start of example code to use USBMonitor. You can modify or delete as required.
-	sig0 = mmag*sinf(2.0f*3.141592f/5000.0f*cnt);
-	sig1 = mmag*cosf(2.0f*3.141592f/2000.0f*cnt);
-	sig2 = mmag*sinf(2.0f*3.141592f/2500.0f*cnt);
-	sig3 = mmag*cosf(2.0f*3.141592f/25000.0f*cnt);
+	//sig0 = mmag*sinf(2.0f*3.141592f/5000.0f*cnt);
+	//sig1 = mmag*cosf(2.0f*3.141592f/2000.0f*cnt);
+	//sig2 = mmag*sinf(2.0f*3.141592f/2500.0f*cnt);
+	//sig3 = mmag*cosf(2.0f*3.141592f/25000.0f*cnt);
 
 	cnt++;
 	if ((cnt%5000) == 0) {
@@ -50,7 +49,8 @@ interrupt void ISRtimer0()
 	}
 	// End of example code
 
-	UMAddData(sig0, sig1, sig2, sig3);	// Add 4 data set to USBMon
+	// Lab3: USBMonitor (Angle, Velocity)
+	UMAddData(mon_angle, mon_vel, 0.0f, 0.0f);	// Add 4 data set to USBMon
 }
 
 interrupt void ISRNMI()
