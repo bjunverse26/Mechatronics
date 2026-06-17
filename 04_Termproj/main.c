@@ -106,10 +106,7 @@ void WaitTFlagCnt(unsigned int cnt)
 #define PULSE 		(512.0f)	// 	
 #define Gear_RATIO 	(2.0f)		// 컴파일하면서 눈으로 찾은 값 (정확한지 확실 x)
 
-// ------------------------------
-/* 	2026.05.27 (수) - 기본 함수 */
-// ------------------------------
-// 입력 -50 ~ 50 제한 및 PWM 출력
+// 1. 입력 -50 ~ 50 제한 및 PWM 출력
 void PWMOut(float duty) {
 	int duty_out;
 	duty_out = 0;
@@ -121,7 +118,7 @@ void PWMOut(float duty) {
 	*DC_PWM_L = duty_out;
 }
 
-// 진자 각도 계산
+// 2. 진자 각도 계산
 float GetAngle() {
 	float angle;
 	int pendulum_count;
@@ -142,6 +139,7 @@ unsigned int TINTCnt;
 void main()
 {
 	float pendulum_angle;
+	int pendulum_enc;
 	int cart_enc;
 
 	InitEXINTF();	// Asynchronous Bus Initialization
@@ -183,15 +181,11 @@ void main()
 		// WaitTFlagCnt(500);
 		pendulum_angle = GetAngle();
 		MACRO_PRINT((tmp_string, "Pendulum Angle: %.2f\r\n", pendulum_angle));
+		pendulum_enc = (int)(*DC_ENC_POSCNT_L);
+		MACRO_PRINT((tmp_string, "Pendulum Enc: %d\r\n", pendulum_enc));
 		cart_enc = (int)(*DC_ENC_POSCNT_R);
 		MACRO_PRINT((tmp_string, "Cart Encoder: %d\r\n", cart_enc));
 		WaitTFlagCnt(500);
 	}
-
-	while (1) {
-		WaitTFlag();
-	}
-
-	
 }
 
